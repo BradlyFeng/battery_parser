@@ -78,13 +78,10 @@ class battery_parser:
                     result_list = []
                     #start=True
                     h_flag=False
-                ret1=line.find('CPU')
-                ret2=line.find('healthd')
-                if ret1 > 0 or ret2 > 0:
-                    ret=line.find('[')
-                    if ret > 0:
-                        h_flag=True
-                        continue
+                ret=line.find('[')
+                if ret > 0:
+                    h_flag=True
+                    continue
                 #if h_flag and start:
                 #    continue
                 #result_list.append(int(a[1]))
@@ -316,10 +313,11 @@ class battery_parser:
         plt.plot(x_time,y_ocv,label="OCV mv")
         plt.grid()
         plt.legend(loc='upper right')
-        plt.annotate('(%ss, vbat=%smV)' % (time_vbat_list[self.time_to_100],vbat_list[self.time_to_100]),
-                     xy=(time_vbat_list[self.time_to_100],vbat_list[self.time_to_100]), xycoords='data', xytext=(+30, -50),
-                     textcoords='offset points', fontsize=16,
-                     arrowprops=dict(arrowstyle='->', connectionstyle="arc3,rad=.2"))
+        if(self.time_to_100 != 0):
+            plt.annotate('(%ss, vbat=%smV)' % (time_vbat_list[self.time_to_100],vbat_list[self.time_to_100]),
+                         xy=(time_vbat_list[self.time_to_100],vbat_list[self.time_to_100]), xycoords='data', xytext=(+30, -50),
+                         textcoords='offset points', fontsize=16,
+                         arrowprops=dict(arrowstyle='->', connectionstyle="arc3,rad=.2"))
         for i in range(len(ibat_low_list)):
             plt.annotate('(%ss, vbat=%smV)' % (time_vbat_list[ibat_low_list[i]],vbat_list[ibat_low_list[i]]),
                          xy=(time_vbat_list[ibat_low_list[i]],vbat_list[ibat_low_list[i]]), xycoords='data', xytext=(+30, -30),
@@ -340,10 +338,11 @@ class battery_parser:
                          xy=(time_ocv_list[ibat_start_list[i]],ocv_list[ibat_start_list[i]]), xycoords='data', xytext=(-50, +20),
                          textcoords='offset points', fontsize=16,
                          arrowprops=dict(arrowstyle='->', connectionstyle="arc3,rad=.2"))
-        plt.annotate('(%ss, ocv=%smV)' % (time_ocv_list[self.time_to_100],ocv_list[self.time_to_100]),
-                     xy=(time_ocv_list[self.time_to_100],ocv_list[self.time_to_100]), xycoords='data', xytext=(+30, -80),
-                    textcoords='offset points', fontsize=16,
-                    arrowprops=dict(arrowstyle='->', connectionstyle="arc3,rad=.2"))
+        if(self.time_to_100 != 0):
+            plt.annotate('(%ss, ocv=%smV)' % (time_ocv_list[self.time_to_100],ocv_list[self.time_to_100]),
+                         xy=(time_ocv_list[self.time_to_100],ocv_list[self.time_to_100]), xycoords='data', xytext=(+30, -80),
+                        textcoords='offset points', fontsize=16,
+                        arrowprops=dict(arrowstyle='->', connectionstyle="arc3,rad=.2"))
         ax2=plt.twinx()
         #Charging Current plot
         x_ibat = time_ibat_list
